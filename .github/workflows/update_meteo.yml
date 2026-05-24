@@ -1,0 +1,75 @@
+name: Mise à jour météo XML
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'   # toutes les 15 minutes
+  workflow_dispatch:           # permet aussi le déclenchement manuel
+
+permissions:
+  contents: write
+
+jobs:
+  update-meteo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Installer dépendances
+        run: pip install requests
+
+      - name: Générer meteo.xml
+        run: |
+          python - <<'EOF'
+          import requests, xml.etree.ElementTree as ET
+          from datetime import datetime, timezone
+
+          # === À PERSONNALISER ===
+          LAT = 46.8702075    # latitude de ton site
+          LON = -71.2281683   # longitude de ton site
+
+          url = "https://api.open-meteo.com/v1/forecast"
+          params = {
+              "latitude": LAT, "longitude": LON,
+              "current": [
+                  "temperature_2m", "apparent_temperature",
+                  "relative_humidity_2m", "precipitation",
+                  "wind_speed_10m", "wind_direction_10m",
+                  "weather_code"
+              ],
+              "wind_speed_unit": "kmh",
+              "timezone": "America/Toronto"
+          }
+
+          resp = requests.get(url, params=params, timeout=15)
+          resp.raise_for_status()
+          c = resp.json()["current"]
+
+          root = ET.Element("MeteoData")
+          ET.SubElement(root, "LastUpdate").text        = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+          ET.SubElement(root, "Temperature").text       = str(c["temperature_2m"])
+          ET.SubElement(root, "FeelsLike").text         = str(c["apparent_temperature"])
+          ET.SubElement(root, "Humidity").text          = str(c["relative_humidity_2m"])
+          ET.SubElement(root, "Precipitation").text     = str(c["precipitation"])
+          ET.SubElement(root, "WindSpeed").text         = str(c["wind_speed_10m"])
+          ET.SubElement(root, "WindDirection").text     = str(c["wind_direction_10m"])
+          ET.SubElement(root, "WeatherCode").text       = str(c["weather_code"])
+
+          ET.indent(root)
+          tree = ET.ElementTree(root)
+          tree.write("meteo.xml", encoding="utf-8", xml_declaration=True)
+          print("meteo.xml généré avec succès")
+          EOF
+
+      - name: Publier le XML (commit automatique)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add meteo.xml
+          git diff --staged --quiet || git commit -m "Mise à jour météo $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
