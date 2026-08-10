@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <MeteoData>
-  <LastUpdate>2026-08-10T20:24:52Z</LastUpdate>
-  <Temperature>23.4</Temperature>
-  <FeelsLike>24.5</FeelsLike>
-  <Humidity>77</Humidity>
+  <LastUpdate>2026-08-10T21:19:46Z</LastUpdate>
+  <Temperature>22.0</Temperature>
+  <FeelsLike>22.9</FeelsLike>
+  <Humidity>76</Humidity>
   <Precipitation>0.0</Precipitation>
-  <WindSpeed>15.8</WindSpeed>
-  <WindDirection>258</WindDirection>
+  <WindSpeed>12.3</WindSpeed>
+  <WindDirection>238</WindDirection>
   <WeatherCode>3</WeatherCode>
 </MeteoData>
