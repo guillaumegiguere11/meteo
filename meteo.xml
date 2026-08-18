@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <MeteoData>
-  <LastUpdate>2026-08-18T19:34:27Z</LastUpdate>
+  <LastUpdate>2026-08-18T19:58:30Z</LastUpdate>
   <Temperature>24.4</Temperature>
-  <FeelsLike>25.5</FeelsLike>
+  <FeelsLike>25.3</FeelsLike>
   <Humidity>52</Humidity>
   <Precipitation>0.0</Precipitation>
   <WindSpeed>6.4</WindSpeed>
