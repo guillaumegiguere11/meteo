@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <MeteoData>
-  <LastUpdate>2026-08-22T08:01:12Z</LastUpdate>
-  <Temperature>11.9</Temperature>
-  <FeelsLike>9.4</FeelsLike>
-  <Humidity>68</Humidity>
+  <LastUpdate>2026-08-22T08:48:27Z</LastUpdate>
+  <Temperature>11.7</Temperature>
+  <FeelsLike>9.3</FeelsLike>
+  <Humidity>70</Humidity>
   <Precipitation>0.0</Precipitation>
   <WindSpeed>10.4</WindSpeed>
   <WindDirection>358</WindDirection>
